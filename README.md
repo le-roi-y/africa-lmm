@@ -1,568 +1,489 @@
 # AFRICA-LMM
 
-**AFRICA-LMM — Open Multimodal Foundation Model for African Documents**
+### Système multimodal open source de compréhension documentaire et de Retrieval-Augmented Generation pour les documents africains
 
-AFRICA-LMM is an open-source multimodal AI platform designed to understand, retrieve, and answer questions about African documents.
+**AFRICA-LMM** est un système d'intelligence artificielle multimodal open source conçu pour comprendre, rechercher et interroger des documents africains.
 
-The system supports document ingestion, PDF extraction, OCR, tables, semantic search, vector retrieval, reranking, RAG-based question answering, citations, conversation history, and a web interface.
+La plateforme combine traitement documentaire, OCR, vision par ordinateur, embeddings, recherche vectorielle, reranking, inférence LLM, citations et évaluation dans une architecture complète d'ingénierie Machine Learning.
+
+Le projet cible notamment les documents liés à l'agriculture, l'éducation, l'économie, le climat et les rapports publics, avec un support initial du français et de l'anglais.
+
+---
+
+## Pourquoi AFRICA-LMM ?
+
+Une grande partie de l'information africaine est distribuée dans des PDF, des documents scannés, des tableaux et des rapports contenant des images.
+
+Une recherche classique par mots-clés est souvent insuffisante pour exploiter correctement ce type de contenu.
+
+AFRICA-LMM construit une chaîne complète :
+
+```text
+PDF / Image / Texte
+       │
+       ▼
+Traitement documentaire
+       │
+       ├── Extraction PDF
+       ├── OCR
+       ├── Tableaux
+       └── Images
+       │
+       ▼
+Découpage en chunks
+       │
+       ▼
+Embeddings
+       │
+       ▼
+Base vectorielle Qdrant
+       │
+       ▼
+Recherche sémantique
+       │
+       ▼
+Cross-Encoder Reranking
+       │
+       ▼
+Construction du contexte
+       │
+       ▼
+Inférence LLM
+       │
+       ▼
+Réponse + preuves + citations
+```
+
+---
+
+## Fonctionnalités principales
+
+* Ingestion multimodale de documents
+* Extraction de texte depuis les PDF
+* OCR avec Tesseract
+* OCR français et anglais
+* Extraction de tableaux
+* Traitement d'images
+* Embeddings sémantiques
+* Recherche vectorielle avec Qdrant
+* Reranking avec Cross-Encoder
+* Retrieval-Augmented Generation (RAG)
+* Citations au niveau des sources et des pages
+* Gestion des conversations
+* Chargement paresseux des modèles
+* Fine-tuning avec LoRA
+* Pipeline QLoRA
+* Framework d'évaluation et de benchmark
+* API d'inférence FastAPI
+* Intégration PostgreSQL
+* Déploiement Docker
+* Interface web Next.js
+* CI automatisée avec GitHub Actions
 
 ---
 
 ## Architecture
 
 ```text
-                         AFRICA-LMM
-                              │
-                ┌─────────────┴─────────────┐
-                │                           │
-          Next.js Frontend             FastAPI API
-             :3000                       :8001
-                │                           │
-                └──────────────┬────────────┘
-                               │
-                 ┌─────────────┼─────────────┐
-                 │             │             │
-             PostgreSQL      Qdrant        ML/RAG
-               :5432          :6333         Pipeline
-                 │             │             │
-                 └─────────────┴─────────────┘
-```
-
-### Main pipeline
-
-```text
-PDF / Image / Text
-        │
-        ▼
-Document Engine
-        │
-        ├── PDF extraction
-        ├── OCR
-        ├── Table extraction
-        └── Metadata
-        │
-        ▼
-Chunking
-        │
-        ▼
-Embeddings
-        │
-        ▼
-Qdrant
-        │
-        ▼
-Retrieval
-        │
-        ▼
-Reranking
-        │
-        ▼
-Context Builder
-        │
-        ▼
-LLM / VLM
-        │
-        ▼
-Answer + Citations
-```
-
----
-
-# Requirements
-
-### System
-
-* Ubuntu Linux
-* Python 3.13+
-* Docker
-* Docker Compose
-* Node.js / npm
-* PostgreSQL 18+
-* Git
-
-### Recommended environment
-
-```text
-Python 3.13
-Node.js 20+
-Docker 29+
-Docker Compose 5+
-PostgreSQL 18+
+                         ┌─────────────────────┐
+                         │      Interface      │
+                         │       Next.js       │
+                         └──────────┬──────────┘
+                                    │
+                                    ▼
+                         ┌─────────────────────┐
+                         │      FastAPI        │
+                         │        API          │
+                         └──────────┬──────────┘
+                                    │
+                  ┌─────────────────┴─────────────────┐
+                  │                                   │
+                  ▼                                   ▼
+        ┌──────────────────┐                ┌──────────────────┐
+        │ Moteur de        │                │ Services de      │
+        │ documents        │                │ conversation     │
+        └────────┬─────────┘                └──────────────────┘
+                 │
+        ┌────────┼─────────┐
+        ▼        ▼         ▼
+      OCR      Vision    Tableaux
+        │        │         │
+        └────────┼─────────┘
+                 ▼
+        ┌──────────────────┐
+        │    Chunking      │
+        └────────┬─────────┘
+                 ▼
+        ┌──────────────────┐
+        │    Embeddings    │
+        └────────┬─────────┘
+                 ▼
+        ┌──────────────────┐
+        │      Qdrant      │
+        └────────┬─────────┘
+                 ▼
+        ┌──────────────────┐
+        │    Retrieval     │
+        └────────┬─────────┘
+                 ▼
+        ┌──────────────────┐
+        │    Reranking     │
+        └────────┬─────────┘
+                 ▼
+        ┌──────────────────┐
+        │ Construction     │
+        │ du contexte      │
+        └────────┬─────────┘
+                 ▼
+        ┌──────────────────┐
+        │     LLM / VLM    │
+        └────────┬─────────┘
+                 ▼
+        ┌──────────────────┐
+        │ Réponse +        │
+        │ sources          │
+        └──────────────────┘
 ```
 
 ---
 
-# Project structure
+## Structure du dépôt
 
 ```text
 africa-lmm/
+│
 ├── .github/
 │   └── workflows/
+│       └── ci.yml
+│
 ├── configs/
 │   ├── datasets/
-│   ├── deployment/
 │   ├── experiments/
-│   └── models/
+│   ├── rag/
+│   └── training/
+│
 ├── data/
+│   ├── datasets/
 │   └── test_documents/
+│
 ├── frontend/
+│   ├── app/
+│   ├── components/
+│   └── lib/
+│
+├── scripts/
+│
 ├── src/
 │   ├── api/
 │   ├── data/
+│   ├── database/
 │   ├── evaluation/
 │   ├── inference/
-│   ├── models/
 │   ├── ocr/
 │   ├── rag/
 │   ├── training/
 │   └── vision/
+│
 ├── tests/
 │   ├── benchmarks/
 │   ├── integration/
 │   └── unit/
-├── .env
-├── docker-compose.yml
+│
 ├── Dockerfile
+├── docker-compose.yml
 ├── pyproject.toml
 ├── requirements.txt
-├── CONTRIBUTING.md
-├── LICENSE
 └── README.md
 ```
 
 ---
 
-# Configuration
+## Pipeline RAG
 
-Create a `.env` file at the project root.
-
-Example:
-
-```env
-DATABASE_URL=postgresql+psycopg://africa_lmm:africa_lmm_dev_2026@localhost:5432/africa_lmm
-```
-
-The Docker Compose configuration overrides the database host for the API container and connects PostgreSQL through:
+Le cœur du système suit le flux suivant :
 
 ```text
-host.docker.internal:5432
+Question utilisateur
+       │
+       ▼
+Routage de l'intention
+       │
+       ▼
+Embedding de la requête
+       │
+       ▼
+Recherche vectorielle
+       │
+       ▼
+Documents candidats
+       │
+       ▼
+Cross-Encoder Reranking
+       │
+       ▼
+Construction du contexte
+       │
+       ▼
+Stratégie de réponse
+       │
+       ▼
+LLM
+       │
+       ▼
+Réponse fondée sur les preuves
+       +
+Citations
+```
+
+Le système ne repose donc pas uniquement sur la génération du LLM : les preuves récupérées sont conservées tout au long du pipeline et retournées avec la réponse.
+
+---
+
+## Traitement multimodal des documents
+
+AFRICA-LMM peut combiner plusieurs sources d'information provenant d'un même document :
+
+```text
+PDF
+ │
+ ├── Extraction de texte natif
+ │
+ ├── Détection des pages scannées
+ │        │
+ │        └── OCR
+ │
+ ├── Images intégrées
+ │
+ └── Tableaux
+```
+
+Le module OCR utilise actuellement Tesseract avec le français et l'anglais.
+
+Le module de vision prend notamment en charge :
+
+```text
+JPEG
+PNG
+WEBP
+TIFF
+BMP
 ```
 
 ---
 
-# 1. Start the backend with Docker
+## Modèles
 
-From the project root:
+La couche d'inférence repose sur l'écosystème Hugging Face Transformers.
 
-```bash
-cd ~/Projects/africa-lmm
+Configuration actuelle de développement :
+
+```text
+LLM :
+Qwen/Qwen2.5-0.5B-Instruct
+
+Modèle d'embeddings :
+Sentence Transformers
+
+Reranker :
+BAAI/bge-reranker-v2-m3
 ```
 
-Start the backend stack:
+Les modèles sont chargés de manière paresseuse lorsque cela est possible afin de réduire la consommation mémoire au démarrage et d'éviter les téléchargements inutiles.
+
+---
+
+## Fine-tuning avec LoRA
+
+AFRICA-LMM contient des pipelines dédiés au fine-tuning LoRA et QLoRA.
+
+Une expérimentation LoRA a été exécutée pendant **3 epochs**.
+
+### Résultats mesurés
+
+| Métrique            | Résultat |
+| ------------------- | -------: |
+| Epochs              |        3 |
+| Training loss       |    3.027 |
+| Entropy             |    1.988 |
+| Mean token accuracy |  59.58 % |
+
+Checkpoint :
+
+```text
+data/checkpoints/africa-lmm-lora
+```
+
+Le code d'entraînement est séparé du pipeline d'inférence et du système RAG afin de permettre l'évolution indépendante des modèles et de l'infrastructure de serving.
+
+---
+
+## Évaluation du système RAG
+
+Un benchmark reproductible a été exécuté sur **10 éléments d'évaluation**.
+
+### Résultats mesurés
+
+| Métrique              | Résultat |
+| --------------------- | -------: |
+| Retrieval Recall@1    |     90 % |
+| Retrieval Recall@5    |     90 % |
+| Reranker Recall@1     |     90 % |
+| Answer Accuracy       |     70 % |
+| Citation Accuracy     |     90 % |
+| Unanswerable Accuracy |      0 % |
+
+Ces valeurs correspondent à des **résultats mesurés pendant le développement** et non à des objectifs théoriques.
+
+Les artefacts du benchmark sont disponibles dans :
+
+```text
+tests/benchmarks/
+```
+
+MLflow est utilisé pour le suivi des expériences et des évaluations.
+
+### Limitation identifiée
+
+La détection des questions auxquelles la base documentaire ne permet pas de répondre correctement reste un point d'amélioration important.
+
+Le résultat de `Unanswerable Accuracy = 0 %` est donc volontairement conservé dans la documentation afin de rendre visibles les limites actuelles du système.
+
+---
+
+## API
+
+Le backend est développé avec FastAPI.
+
+Principales routes :
+
+```text
+GET  /health
+
+POST /query
+
+POST /documents
+
+GET  /documents
+
+GET  /documents/{document_id}/file
+
+POST /conversations
+
+GET  /conversations
+
+GET  /conversations/{conversation_id}
+
+DELETE /conversations/{conversation_id}
+```
+
+FastAPI fournit également automatiquement la documentation OpenAPI lorsque le serveur est lancé.
+
+---
+
+## Lancer le projet avec Docker
+
+### Prérequis
+
+* Docker
+* Docker Compose
+* 8 Go de RAM minimum recommandés pour l'environnement de développement
+* Connexion Internet pour le téléchargement initial des modèles
+
+Cloner le dépôt :
+
+```bash
+git clone https://github.com/le-roi-y/africa-lmm.git
+cd africa-lmm
+```
+
+Configurer l'environnement :
+
+```bash
+cp .env.example .env
+```
+
+Démarrer les services :
 
 ```bash
 docker compose up -d
 ```
 
-This starts:
-
-* AFRICA-LMM API
-* Qdrant
-
-Check the services:
-
-```bash
-docker compose ps
-```
-
-Expected services:
-
-```text
-africa-lmm-api
-africa-lmm-qdrant
-```
-
----
-
-# 2. Check API health
+Vérifier l'API :
 
 ```bash
 curl http://localhost:8001/health
 ```
 
-Expected response:
+### Services
 
-```json
-{
-  "status": "ok",
-  "service": "africa-lmm",
-  "version": "0.1.0"
-}
-```
-
-API documentation:
-
-```text
-http://localhost:8001/docs
-```
-
-OpenAPI specification:
-
-```text
-http://localhost:8001/openapi.json
-```
+| Service     | Port |
+| ----------- | ---: |
+| FastAPI     | 8001 |
+| Qdrant HTTP | 6333 |
+| Qdrant gRPC | 6334 |
+| PostgreSQL  | 5432 |
 
 ---
 
-# 3. Check Qdrant
+## Interface web
 
-Qdrant is available at:
-
-```text
-http://localhost:6333
-```
-
-Check the service:
+Le projet possède une interface frontend développée avec Next.js.
 
 ```bash
-curl http://localhost:6333
-```
+cd frontend
 
----
-
-# 4. PostgreSQL
-
-PostgreSQL runs on the host system.
-
-Check the service:
-
-```bash
-sudo systemctl status postgresql
-```
-
-Check PostgreSQL:
-
-```bash
-sudo -u postgres psql -c "SELECT version();"
-```
-
-The AFRICA-LMM database is:
-
-```text
-africa_lmm
-```
-
-Test the database:
-
-```bash
-sudo -u postgres psql -d africa_lmm -c "\dt"
-```
-
----
-
-# 5. View backend logs
-
-```bash
-docker compose logs -f api
-```
-
-Qdrant logs:
-
-```bash
-docker compose logs -f qdrant
-```
-
-All services:
-
-```bash
-docker compose logs -f
-```
-
----
-
-# 6. Stop the backend
-
-Stop the services:
-
-```bash
-docker compose down
-```
-
-Start them again:
-
-```bash
-docker compose up -d
-```
-
----
-
-# 7. Rebuild the API image
-
-Only rebuild when source code or Docker dependencies have changed.
-
-```bash
-docker build -t africa-lmm:dev .
-```
-
-Then recreate the API:
-
-```bash
-docker compose up -d --force-recreate api
-```
-
-There is **no need to rebuild** when only environment variables or Docker Compose configuration changes.
-
----
-
-# 8. Frontend
-
-The frontend is a Next.js application located in:
-
-```text
-frontend/
-```
-
-Enter the frontend directory:
-
-```bash
-cd ~/Projects/africa-lmm/frontend
-```
-
-Install dependencies:
-
-```bash
 npm install
-```
 
-Create:
+printf 'NEXT_PUBLIC_API_URL=http://127.0.0.1:8001\n' > .env.local
 
-```text
-frontend/.env.local
-```
-
-with:
-
-```env
-NEXT_PUBLIC_API_URL=http://localhost:8001
-```
-
-This variable tells the frontend where the FastAPI backend is running.
-
----
-
-# 9. Start the frontend
-
-From:
-
-```bash
-cd ~/Projects/africa-lmm/frontend
-```
-
-run:
-
-```bash
 npm run dev
 ```
 
-The frontend will be available at:
+Puis ouvrir :
 
 ```text
 http://localhost:3000
 ```
 
-Open:
+L'interface permet notamment :
 
-```text
-http://localhost:3000/chat
-```
-
----
-
-# 10. Frontend production build
-
-Build the Next.js application:
-
-```bash
-npm run build
-```
-
-Start the production server:
-
-```bash
-npm run start
-```
+* d'importer des documents ;
+* d'indexer les documents ;
+* de poser des questions ;
+* d'afficher les réponses générées ;
+* d'exploiter les citations et sources du système RAG.
 
 ---
 
-# 11. Complete development startup
+## Installation pour le développement
 
-For normal development, use two terminals.
-
-### Terminal 1 — Backend
+Créer l'environnement Python :
 
 ```bash
-cd ~/Projects/africa-lmm
-docker compose up -d
-```
-
-Verify:
-
-```bash
-curl http://localhost:8001/health
-```
-
-### Terminal 2 — Frontend
-
-```bash
-cd ~/Projects/africa-lmm/frontend
-npm run dev
-```
-
-Then open:
-
-```text
-http://localhost:3000/chat
-```
-
----
-
-# 12. Verify the API
-
-Health:
-
-```bash
-curl -i http://localhost:8001/health
-```
-
-Documents:
-
-```bash
-curl -i http://localhost:8001/documents
-```
-
-Conversations:
-
-```bash
-curl -i http://localhost:8001/conversations
-```
-
-API documentation:
-
-```text
-http://localhost:8001/docs
-```
-
----
-
-# 13. Test document upload from the API
-
-Example:
-
-```bash
-curl -X POST \
-  http://localhost:8001/documents \
-  -F "file=@data/test_documents/multimodal_agriculture.pdf"
-```
-
-The API should return information about the indexed document.
-
-Then verify:
-
-```bash
-curl http://localhost:8001/documents
-```
-
----
-
-# 14. Ask a question through the API
-
-Example:
-
-```bash
-curl -X POST \
-  http://localhost:8001/query \
-  -H "Content-Type: application/json" \
-  -d '{
-    "question": "Quelle est la production de cacao en 2024 ?",
-    "top_k": 5,
-    "document_ids": []
-  }'
-```
-
-The response contains:
-
-* the question
-* the generated answer
-* the conversation ID
-* citations
-* retrieved chunks
-
----
-
-# 15. Development environment
-
-Create the Python environment:
-
-```bash
-cd ~/Projects/africa-lmm
 python3.13 -m venv env
-```
-
-Activate it:
-
-```bash
 source env/bin/activate
 ```
 
-Install Python dependencies:
+Installer les dépendances :
 
 ```bash
 python -m pip install -r requirements.txt
 ```
 
----
-
-# 16. Run tests
-
-Run the test suite:
-
-```bash
-python -m pytest
-```
-
-Run with concise output:
-
-```bash
-python -m pytest -q
-```
-
----
-
-# 17. Code quality
-
-Run Ruff:
+Vérifier la qualité du code :
 
 ```bash
 ruff check src tests
-```
-
-Run Black:
-
-```bash
 black --check src tests
 ```
 
-Format the project:
+Lancer les tests :
 
 ```bash
-black src tests
+pytest -q
 ```
 
----
-
-# 18. Python compilation check
-
-Verify that the source code compiles:
+Vérifier la compilation :
 
 ```bash
 python -m compileall -q src
@@ -570,194 +491,151 @@ python -m compileall -q src
 
 ---
 
-# 19. Docker development workflow
+## CI/CD
 
-After modifying Python source code:
-
-```bash
-docker build -t africa-lmm:dev .
-docker compose up -d --force-recreate api
-```
-
-After modifying only `docker-compose.yml`:
-
-```bash
-docker compose up -d --force-recreate api
-```
-
-After modifying only frontend code:
-
-```bash
-cd frontend
-npm run dev
-```
-
-No backend rebuild is required for frontend-only changes.
-
----
-
-# 20. Useful Docker commands
-
-List containers:
-
-```bash
-docker ps
-```
-
-List AFRICA-LMM containers:
-
-```bash
-docker compose ps
-```
-
-Inspect API logs:
-
-```bash
-docker compose logs --tail=100 api
-```
-
-Follow API logs:
-
-```bash
-docker compose logs -f api
-```
-
-Restart API:
-
-```bash
-docker compose restart api
-```
-
-Restart everything:
-
-```bash
-docker compose restart
-```
-
-Stop everything:
-
-```bash
-docker compose down
-```
-
----
-
-# 21. Useful Qdrant commands
-
-Check Qdrant:
-
-```bash
-curl http://localhost:6333
-```
-
-List collections:
-
-```bash
-curl http://localhost:6333/collections
-```
-
----
-
-# 22. Git workflow
-
-Check the repository:
-
-```bash
-git status
-```
-
-Review changes:
-
-```bash
-git diff
-```
-
-Add changes:
-
-```bash
-git add .
-```
-
-Commit:
-
-```bash
-git commit -m "feat: update AFRICA-LMM"
-```
-
-Push:
-
-```bash
-git push
-```
-
----
-
-# 23. Recommended startup sequence
-
-For a fresh development session:
-
-```bash
-cd ~/Projects/africa-lmm
-docker compose up -d
-curl http://localhost:8001/health
-```
-
-Then:
-
-```bash
-cd ~/Projects/africa-lmm/frontend
-npm run dev
-```
-
-Open:
+Le projet utilise GitHub Actions pour automatiser les contrôles principaux :
 
 ```text
-http://localhost:3000/chat
+Checkout
+   │
+   ▼
+Python 3.13
+   │
+   ▼
+Installation des dépendances
+   │
+   ├── Compilation Python
+   ├── Ruff
+   ├── Black
+   └── Pytest
+```
+
+Workflow :
+
+```text
+.github/workflows/ci.yml
 ```
 
 ---
 
-# 24. Service ports
+## Stack technique
 
-| Service     | Port | Purpose             |
-| ----------- | ---: | ------------------- |
-| Next.js     | 3000 | Web interface       |
-| FastAPI     | 8001 | REST API            |
-| Qdrant      | 6333 | Vector database     |
-| Qdrant gRPC | 6334 | Qdrant gRPC         |
-| PostgreSQL  | 5432 | Relational database |
+### Machine Learning
+
+* Python
+* PyTorch
+* Hugging Face Transformers
+* Sentence Transformers
+* PEFT
+* LoRA
+* QLoRA
+* Safetensors
+
+### Document AI
+
+* PyMuPDF
+* pypdf
+* pdfplumber
+* Tesseract OCR
+* Pillow
+
+### Retrieval
+
+* Qdrant
+* Embeddings denses
+* Cross-Encoder
+* RAG
+
+### Backend
+
+* FastAPI
+* Pydantic
+* SQLAlchemy
+* PostgreSQL
+
+### MLOps
+
+* MLflow
+* GitHub Actions
+* Docker
+* Docker Compose
+
+### Frontend
+
+* Next.js
+* React
+* TypeScript
 
 ---
 
-# 25. Current system status
+## Principes d'ingénierie
 
-The development stack provides:
+AFRICA-LMM suit plusieurs principes :
 
-* PDF document ingestion
-* Native PDF text extraction
-* OCR
-* Table extraction
-* Image processing
-* Semantic embeddings
-* Qdrant vector search
-* Cross-encoder reranking
-* RAG pipeline
-* Conversation-aware retrieval
-* Intent routing
-* Context building
-* LLM inference
-* Answer citations
-* PostgreSQL conversation persistence
-* FastAPI REST API
-* Next.js web interface
-* Docker deployment
-* MLflow evaluation
-* Automated testing
-* Code quality checks
+* Architecture modulaire
+* Chargement paresseux des modèles
+* Injection de dépendances lorsque pertinente
+* Composants testables indépendamment
+* Évaluation reproductible
+* Configuration séparée du code
+* Aucun secret versionné
+* Services conteneurisés avec Docker
+* Contrôles de qualité automatisés
+* Réponses accompagnées de preuves et de citations
+* Résultats expérimentaux mesurés plutôt que revendiqués
 
 ---
 
-# License
+## Feuille de route
 
-This project is open source. See [LICENSE](LICENSE) for details.
+### Implémenté
 
+* [x] Ingestion PDF
+* [x] OCR
+* [x] Traitement d'images
+* [x] Extraction de tableaux
+* [x] Embeddings sémantiques
+* [x] Recherche Qdrant
+* [x] Reranking Cross-Encoder
+* [x] Pipeline RAG
+* [x] Citations
+* [x] API FastAPI
+* [x] Intégration PostgreSQL
+* [x] Déploiement Docker
+* [x] Frontend Next.js
+* [x] Pipeline LoRA
+* [x] Pipeline QLoRA
+* [x] Benchmark d'évaluation
+* [x] Suivi MLflow
+* [x] CI GitHub Actions
+
+### Prochaines étapes
+
+* [ ] Intégration VLM multimodale plus avancée
+* [ ] Datasets de langues africaines
+* [ ] Amélioration de la détection des questions sans réponse
+* [ ] Hybrid Retrieval lexical + dense
+* [ ] Observabilité du pipeline RAG
+* [ ] Monitoring en production
+* [ ] Évaluation à plus grande échelle
+* [ ] Model Card
+* [ ] Dataset Card
+* [ ] Démonstration publique
+
+---
+
+## Statut du projet
+
+AFRICA-LMM est un projet open source actif d'ingénierie Machine Learning.
+
+L'objectif actuel est de construire une chaîne complète et reproductible allant de l'ingestion documentaire jusqu'au retrieval, à la génération, à l'évaluation et au serving.
+
+Le projet documente volontairement ses résultats mesurés ainsi que ses limitations afin de présenter une évaluation technique transparente.
+
+---
+
+## Licence
+
+Ce projet est distribué sous licence MIT.
+
+Voir [LICENSE](LICENSE).

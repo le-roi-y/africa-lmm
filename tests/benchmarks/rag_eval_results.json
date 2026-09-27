@@ -1,0 +1,133 @@
+{
+  "dataset_size": 10,
+  "metrics": {
+    "retrieval_recall_at_1": 0.9,
+    "retrieval_recall_at_5": 0.9,
+    "reranker_recall_at_1": 0.9,
+    "answer_accuracy": 0.7,
+    "citation_accuracy": 0.9,
+    "unanswerable_accuracy": 0.0
+  },
+  "results": [
+    {
+      "id": "q01",
+      "question": "Quelle était la production de cacao en 2024 ?",
+      "type": "table",
+      "retrieval_rank": 1,
+      "reranker_rank": 1,
+      "answer": "300 000",
+      "expected_answer": "300 000",
+      "answer_correct": true,
+      "citation_correct": true,
+      "unanswerable_correct": null
+    },
+    {
+      "id": "q02",
+      "question": "Quelle était la production de cacao en 2023 ?",
+      "type": "table",
+      "retrieval_rank": 1,
+      "reranker_rank": 1,
+      "answer": "280 000",
+      "expected_answer": "280 000",
+      "answer_correct": true,
+      "citation_correct": true,
+      "unanswerable_correct": null
+    },
+    {
+      "id": "q03",
+      "question": "Quelle était la production de café en 2024 ?",
+      "type": "table",
+      "retrieval_rank": 1,
+      "reranker_rank": 1,
+      "answer": "135 000",
+      "expected_answer": "135 000",
+      "answer_correct": true,
+      "citation_correct": true,
+      "unanswerable_correct": null
+    },
+    {
+      "id": "q04",
+      "question": "Quelle était la production de maïs en 2023 ?",
+      "type": "table",
+      "retrieval_rank": 1,
+      "reranker_rank": 1,
+      "answer": "450 000",
+      "expected_answer": "450 000",
+      "answer_correct": true,
+      "citation_correct": true,
+      "unanswerable_correct": null
+    },
+    {
+      "id": "q05",
+      "question": "Quel rôle joue l'agriculture camerounaise dans l'économie du pays ?",
+      "type": "text",
+      "retrieval_rank": 1,
+      "reranker_rank": 1,
+      "answer": "L'agriculture camerounaise joue un rôle important dans l'économie du pays. Elle contribue à l'emploi, aux revenus des ménages et à l'approvisionnement alimentaire. Les principales productions agricoles comprennent notamment le cacao, le café, le coton, la banane, le maïs et le manioc. Le secteur agricole constitue également une source importante de revenus pour les populations rurales. \n\nNOTES:\n- The text does not provide specific details about the role of agriculture in Cameroon's economy.\n- The table",
+      "expected_answer": "L'agriculture camerounaise joue un rôle important dans l'économie du pays.",
+      "answer_correct": true,
+      "citation_correct": true,
+      "unanswerable_correct": null
+    },
+    {
+      "id": "q06",
+      "question": "À quoi l'agriculture camerounaise contribue-t-elle ?",
+      "type": "text",
+      "retrieval_rank": 1,
+      "reranker_rank": 1,
+      "answer": "L'agriculture camerounaise joue un rôle important dans l'économie du pays. Elle contribue à l'emploi, aux revenus des ménages et à l'approvisionnement alimentaire. Les principales productions agricoles comprennent notamment le cacao, le café, le coton, la banane, le maïs et le manioc. Le secteur agricole constitue également une source importante de revenus pour les populations rurales. \n\nNOTES:\n- Table 1 shows the production of various crops in 2023 and 202",
+      "expected_answer": "Elle contribue à l'emploi, aux revenus des ménages et à l'approvisionnement alimentaire.",
+      "answer_correct": true,
+      "citation_correct": true,
+      "unanswerable_correct": null
+    },
+    {
+      "id": "q07",
+      "question": "Quelles sont les principales productions agricoles mentionnées dans le document ?",
+      "type": "text",
+      "retrieval_rank": 1,
+      "reranker_rank": 1,
+      "answer": "Les principales productions agricoles mentionnées dans le document sont le cacao, le café, le maïs et le manioc. Ces produits sont également des sources importantes de revenus pour les populations rurales. \n\nNOTES:\n- La production est donnée en milliers d'unités.\n- Le tableau contient deux images associées au document. \n- Les informations sur les produits mentionnés sont données par rapport à 2023 et 2024. \n- Les valeurs sont affichées dans des unités de millier (millions) de produits. \n- Les",
+      "expected_answer": "Le cacao, le café, le coton, la banane, le maïs et le manioc.",
+      "answer_correct": false,
+      "citation_correct": true,
+      "unanswerable_correct": null
+    },
+    {
+      "id": "q08",
+      "question": "Quelle est l'importance du secteur agricole pour les populations rurales ?",
+      "type": "text",
+      "retrieval_rank": 1,
+      "reranker_rank": 1,
+      "answer": "Les principales productions agricoles comprennent notamment le cacao, le café, le\ncoton, la banane, le maïs et le manioc. Le secteur agricole constitue également une source importante de revenus pour les populations rurales. (Note: Il n'y a pas d'image associée à ce point) [END_OF_TEXT] To provide an accurate and concise answer based on the given text:\n\nThe agricultural sector plays a crucial role in Cameroon's economy by contributing significantly to employment, income for households, and food security. Key crops include cocoa, coffee, cotton, bananas,",
+      "expected_answer": "Le secteur agricole constitue une source importante de revenus pour les populations rurales.",
+      "answer_correct": false,
+      "citation_correct": true,
+      "unanswerable_correct": null
+    },
+    {
+      "id": "q09",
+      "question": "Quelle était la production de cacao en 2025 ?",
+      "type": "unanswerable",
+      "retrieval_rank": null,
+      "reranker_rank": null,
+      "answer": "Le produit de cacao en 2025 est de 300 000 tonnes. \n\nThis answer directly matches the information provided in the text about the 2025 production of cacao. It does not require any inference or external knowledge beyond what was given in the context. The calculation for 2025 based on the table data aligns perfectly with the statement made in the question. Therefore, I have answered the question accurately without making assumptions or adding anything new to the existing information. Let me know if you need any clarification! 🌍🌾🌾🌾🌾🌾🌾🌾🌾🌾",
+      "expected_answer": null,
+      "answer_correct": false,
+      "citation_correct": false,
+      "unanswerable_correct": false
+    },
+    {
+      "id": "q10",
+      "question": "Quelle était la production de café en 2023 ?",
+      "type": "table",
+      "retrieval_rank": 1,
+      "reranker_rank": 1,
+      "answer": "120 000",
+      "expected_answer": "120 000",
+      "answer_correct": true,
+      "citation_correct": true,
+      "unanswerable_correct": null
+    }
+  ]
+}

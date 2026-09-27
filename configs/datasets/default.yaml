@@ -1,0 +1,18 @@
+dataset:
+  name: africa_lmm_instruction
+  format: jsonl
+  path: data/datasets/train.jsonl
+
+  validation_split: 0.1
+  seed: 42
+
+  fields:
+    instruction: instruction
+    input: input
+    response: response
+
+  metadata:
+    language: language
+    domain: domain
+    country: country
+    source: source

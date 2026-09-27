@@ -1,0 +1,92 @@
+[
+  {
+    "id": "q01",
+    "question": "Quelle était la production de cacao en 2024 ?",
+    "expected_answer": "300 000",
+    "expected_document": "multimodal_agriculture",
+    "expected_page": 1,
+    "expected_chunk": "multimodal_agriculture_1_0",
+    "type": "table"
+  },
+  {
+    "id": "q02",
+    "question": "Quelle était la production de cacao en 2023 ?",
+    "expected_answer": "280 000",
+    "expected_document": "multimodal_agriculture",
+    "expected_page": 1,
+    "expected_chunk": "multimodal_agriculture_1_0",
+    "type": "table"
+  },
+  {
+    "id": "q03",
+    "question": "Quelle était la production de café en 2024 ?",
+    "expected_answer": "135 000",
+    "expected_document": "multimodal_agriculture",
+    "expected_page": 1,
+    "expected_chunk": "multimodal_agriculture_1_0",
+    "type": "table"
+  },
+  {
+    "id": "q04",
+    "question": "Quelle était la production de maïs en 2023 ?",
+    "expected_answer": "450 000",
+    "expected_document": "multimodal_agriculture",
+    "expected_page": 1,
+    "expected_chunk": "multimodal_agriculture_1_0",
+    "type": "table"
+  },
+  {
+    "id": "q05",
+    "question": "Quel rôle joue l'agriculture camerounaise dans l'économie du pays ?",
+    "expected_answer": "L'agriculture camerounaise joue un rôle important dans l'économie du pays.",
+    "expected_document": "agriculture_cameroun",
+    "expected_page": 1,
+    "expected_chunk": "agriculture_cameroun_1_0",
+    "type": "text"
+  },
+  {
+    "id": "q06",
+    "question": "À quoi l'agriculture camerounaise contribue-t-elle ?",
+    "expected_answer": "Elle contribue à l'emploi, aux revenus des ménages et à l'approvisionnement alimentaire.",
+    "expected_document": "agriculture_cameroun",
+    "expected_page": 1,
+    "expected_chunk": "agriculture_cameroun_1_0",
+    "type": "text"
+  },
+  {
+    "id": "q07",
+    "question": "Quelles sont les principales productions agricoles mentionnées dans le document ?",
+    "expected_answer": "Le cacao, le café, le coton, la banane, le maïs et le manioc.",
+    "expected_document": "agriculture_cameroun",
+    "expected_page": 1,
+    "expected_chunk": "agriculture_cameroun_1_0",
+    "type": "text"
+  },
+  {
+    "id": "q08",
+    "question": "Quelle est l'importance du secteur agricole pour les populations rurales ?",
+    "expected_answer": "Le secteur agricole constitue une source importante de revenus pour les populations rurales.",
+    "expected_document": "agriculture_cameroun",
+    "expected_page": 1,
+    "expected_chunk": "agriculture_cameroun_1_0",
+    "type": "text"
+  },
+  {
+    "id": "q09",
+    "question": "Quelle était la production de cacao en 2025 ?",
+    "expected_answer": null,
+    "expected_document": null,
+    "expected_page": null,
+    "expected_chunk": null,
+    "type": "unanswerable"
+  },
+  {
+    "id": "q10",
+    "question": "Quelle était la production de café en 2023 ?",
+    "expected_answer": "120 000",
+    "expected_document": "multimodal_agriculture",
+    "expected_page": 1,
+    "expected_chunk": "multimodal_agriculture_1_0",
+    "type": "table"
+  }
+]

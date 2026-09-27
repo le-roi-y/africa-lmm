@@ -1,0 +1,65 @@
+# ============================================================
+# AFRICA-LMM
+# Python 3.13
+# ============================================================
+
+# Core
+numpy
+pandas
+pydantic
+python-dotenv
+pyyaml
+tqdm
+
+# Deep Learning
+torch
+torchvision
+torchaudio
+
+# Hugging Face
+transformers
+datasets
+tokenizers
+accelerate
+peft
+safetensors
+
+# Document processing
+pypdf
+pymupdf
+pdfplumber
+
+# OCR
+pytesseract
+pillow
+
+# RAG / Embeddings
+sentence-transformers
+qdrant-client
+
+# NLP
+scikit-learn
+
+# API
+fastapi
+uvicorn[standard]
+python-multipart
+
+# Database
+sqlalchemy
+psycopg[binary]
+
+# Experiment tracking
+mlflow
+
+# Evaluation
+evaluate
+
+# Testing
+pytest
+pytest-cov
+
+# Code quality
+ruff
+black
+mypy

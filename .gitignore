@@ -1,0 +1,77 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+env/
+venv/
+.venv/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Hugging Face / ML caches
+.cache/
+.cache/huggingface/
+huggingface/
+transformers_cache/
+
+# Models / checkpoints
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.ckpt
+*.onnx
+checkpoints/
+models/
+data/checkpoints/
+
+# Data generated at runtime
+data/uploads/
+data/processed/
+data/evaluation/
+*.sqlite
+*.sqlite3
+mlflow.db
+mlruns/
+
+# Qdrant
+qdrant_storage/
+
+# Frontend
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/.env.local
+
+# Logs
+*.log
+logs/
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Build
+dist/
+build/
+*.egg-info/
+
+# Temporary
+*.tmp
+*.temp
+
+# Coverage
+coverage.xml

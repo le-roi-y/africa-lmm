@@ -1,0 +1,25 @@
+retrieval:
+  top_k: 5
+  score_threshold: 0.53
+
+embedding:
+  model: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+
+reranker:
+  model: BAAI/bge-reranker-v2-m3
+  max_length: 512
+
+generation:
+  model: Qwen/Qwen2.5-0.5B-Instruct
+  max_new_tokens: 64
+  do_sample: false
+
+extractive_qa:
+  score_threshold: 0.35
+  min_sentence_length: 20
+  max_sentence_length: 500
+
+qdrant:
+  host: localhost
+  port: 6333
+  collection: africa_lmm_documents

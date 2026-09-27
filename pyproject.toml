@@ -1,0 +1,198 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "africa-lmm"
+version = "0.1.0"
+description = "Multimodal AI platform for African documents."
+readme = "README.md"
+requires-python = ">=3.13,<3.14"
+license = {file = "LICENSE"}
+
+authors = [
+    {name = "AFRICA-LMM Contributors"}
+]
+
+dependencies = [
+    "numpy",
+    "pandas",
+    "pydantic",
+    "python-dotenv",
+    "pyyaml",
+    "tqdm",
+
+    "torch",
+    "torchvision",
+    "torchaudio",
+
+    "transformers",
+    "datasets",
+    "tokenizers",
+    "accelerate",
+    "peft",
+    "safetensors",
+
+    "pypdf",
+    "pymupdf",
+    "pdfplumber",
+
+    "pytesseract",
+    "pillow",
+
+    "sentence-transformers",
+    "qdrant-client",
+
+    "scikit-learn",
+
+    "fastapi",
+    "uvicorn[standard]",
+    "python-multipart",
+
+    "sqlalchemy",
+    "psycopg[binary]",
+
+    "mlflow",
+    "evaluate"
+]
+
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "ruff",
+    "black",
+    "mypy"
+]
+
+
+[tool.setuptools]
+packages = [
+    "src",
+    "src.api",
+    "src.data",
+    "src.evaluation",
+    "src.inference",
+    "src.models",
+    "src.ocr",
+    "src.rag",
+    "src.training",
+    "src.vision",
+]
+
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = [
+    "-ra",
+    "--strict-config",
+    "--strict-markers",
+    "--cov=src",
+    "--cov-report=term-missing",
+    "--cov-report=xml",
+]
+filterwarnings = [
+    "error",
+]
+
+
+[tool.coverage.run]
+branch = true
+source = ["src"]
+
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "@abstractmethod",
+    "raise NotImplementedError",
+]
+show_missing = true
+skip_covered = false
+fail_under = 70
+
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+src = ["src", "tests"]
+
+exclude = [
+    ".git",
+    ".venv",
+    "venv",
+    "env",
+    "build",
+    "dist",
+    "__pycache__",
+    ".pytest_cache",
+    ".mypy_cache",
+    ".ruff_cache",
+]
+
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "W",
+    "I",
+    "UP",
+    "B",
+    "SIM",
+]
+
+ignore = [
+    "E501",
+]
+
+
+[tool.ruff.lint.isort]
+known-first-party = ["src"]
+
+
+[tool.black]
+line-length = 100
+target-version = ["py313"]
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.venv
+  | venv
+  | env
+  | build
+  | dist
+  | __pycache__
+  | \.pytest_cache
+  | \.mypy_cache
+  | \.ruff_cache
+)/
+'''
+
+
+[tool.mypy]
+python_version = "3.13"
+mypy_path = "."
+files = ["src"]
+exclude = '(^|/)(tests|build|dist)/'
+
+check_untyped_defs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_unused_configs = true
+show_error_codes = true
+pretty = true
+
+[[tool.mypy.overrides]]
+module = [
+    "fitz",
+    "pytesseract",
+]
+ignore_missing_imports = true

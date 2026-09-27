@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import os
-
 from pathlib import Path
 
 from src.data.ingestion import DocumentIngestionPipeline
@@ -11,8 +10,8 @@ from src.inference.predictor import Predictor
 from src.models.text_model import TextModel
 from src.rag.answer_strategy import AnswerStrategy
 from src.rag.pipeline import RAGPipeline
-from src.rag.reranker import CrossEncoderReranker
 from src.rag.qdrant_retriever import QdrantRetriever
+from src.rag.reranker import CrossEncoderReranker
 
 
 class RAGService:

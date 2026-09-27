@@ -2,12 +2,12 @@ from __future__ import annotations
 
 import uuid
 from typing import Any
-from src.inference.title_generator import generate_conversation_title
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session, selectinload
 
 from src.database.models import Conversation, Message
+from src.inference.title_generator import generate_conversation_title
 
 
 class ConversationService:

@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import re
 
-
 QUESTION_STARTERS = {
     "quelle est",
     "quels sont",

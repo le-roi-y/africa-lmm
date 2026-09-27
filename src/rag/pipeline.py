@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from src.data.schemas import Answer, Citation
 from src.models.base import BaseModel
+
 from .answer_strategy import AnswerStrategy
 from .conversation_resolver import ConversationResolver
 from .intent_router import Intent, IntentRouter, RouterContext

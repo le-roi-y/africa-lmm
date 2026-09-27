@@ -12,7 +12,6 @@ from qdrant_client.models import (
     PointStruct,
     VectorParams,
 )
-
 from sentence_transformers import SentenceTransformer
 
 from src.data.schemas import DocumentChunk, RetrievalResult

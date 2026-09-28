@@ -26,8 +26,10 @@ def test_predict_delegates_to_pipeline() -> None:
     assert result is expected_answer
 
     pipeline.answer.assert_called_once_with(
-        "Quelle est la capitale du Cameroun ?",
-        7,
+        question="Quelle est la capitale du Cameroun ?",
+        top_k=7,
+        document_ids=None,
+        conversation_context=None,
     )
 
 
@@ -46,8 +48,10 @@ def test_predict_uses_default_top_k() -> None:
     assert result is expected_answer
 
     pipeline.answer.assert_called_once_with(
-        "Quelle est la capitale du Cameroun ?",
-        5,
+        question="Quelle est la capitale du Cameroun ?",
+        top_k=5,
+        document_ids=None,
+        conversation_context=None,
     )
 
 

@@ -78,9 +78,12 @@ def test_text_model_generate_decodes_only_new_tokens() -> None:
     input_ids = torch.tensor([[10, 20, 30]])
     generated_ids = torch.tensor([[10, 20, 30, 40, 50]])
 
-    tokenizer.return_value = {
-        "input_ids": input_ids,
-    }
+    class MockInputs(dict):
+        def to(self, device: str) -> MockInputs:
+            return self
+
+    inputs = MockInputs(input_ids=input_ids)
+    tokenizer.return_value = inputs
     tokenizer.decode.return_value = "Bonjour le monde"
 
     model_backend = Mock()
@@ -130,9 +133,12 @@ def test_text_model_generate_enables_sampling_for_positive_temperature() -> None
     input_ids = torch.tensor([[1, 2]])
     generated_ids = torch.tensor([[1, 2, 3]])
 
-    tokenizer.return_value = {
-        "input_ids": input_ids,
-    }
+    class MockInputs(dict):
+        def to(self, device: str) -> MockInputs:
+            return self
+
+    inputs = MockInputs(input_ids=input_ids)
+    tokenizer.return_value = inputs
     tokenizer.decode.return_value = "réponse"
 
     model_backend = Mock()

@@ -1,5 +1,6 @@
 from src.data.schemas import DocumentChunk, RetrievalResult
 from src.models.base import BaseModel
+from src.rag.intent_router import Intent
 from src.rag.pipeline import RAGPipeline
 from src.rag.reranker import ScoreReranker
 from src.rag.retriever import Retriever
@@ -25,6 +26,13 @@ class FakeRetriever(Retriever):
     def index(self, chunks):
         self.chunks.extend(chunks)
 
+    def get_encoder(self):
+        class FakeEncoder:
+            def encode(self, texts, **kwargs):
+                return [[1.0] for _ in texts]
+
+        return FakeEncoder()
+
     def retrieve(self, query: str, top_k: int = 5):
         results = [
             RetrievalResult(
@@ -36,6 +44,25 @@ class FakeRetriever(Retriever):
         ]
 
         return results
+
+
+class FakeAnswerStrategy:
+    def answer(
+        self,
+        question,
+        results,
+        contextual_question=None,
+    ):
+        return "La production agricole est de 100 tonnes."
+
+    def summarize(self, results):
+        return "Résumé."
+
+    def compare(self, question, results):
+        return "Comparaison."
+
+    def overview(self, question, results):
+        return "Vue d'ensemble."
 
 
 class FakeModel(BaseModel):
@@ -62,7 +89,14 @@ def test_rag_pipeline():
         retriever=retriever,
         model=model,
         reranker=ScoreReranker(),
+        answer_strategy=FakeAnswerStrategy(),
     )
+
+    pipeline.intent_router.route = lambda question, context=None: type(
+        "IntentResult",
+        (),
+        {"intent": Intent.DOCUMENT_QA},
+    )()
 
     result = pipeline.answer(
         "Quelle est la production agricole ?",
@@ -73,14 +107,13 @@ def test_rag_pipeline():
     assert len(result.citations) == 2
     assert result.citations[0].document_id == "doc-1"
     assert result.citations[0].page_number == 5
-    assert model.last_prompt is not None
-    assert "Quelle est la production agricole ?" in model.last_prompt
 
 
 def test_rag_pipeline_rejects_empty_question():
     pipeline = RAGPipeline(
         retriever=FakeRetriever(),
         model=FakeModel(),
+        answer_strategy=FakeAnswerStrategy(),
     )
 
     try:

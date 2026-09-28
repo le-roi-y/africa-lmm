@@ -33,7 +33,7 @@ transformers_cache/
 *.ckpt
 *.onnx
 checkpoints/
-models/
+/models/
 data/checkpoints/
 
 # Data generated at runtime

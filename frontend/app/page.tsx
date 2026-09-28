@@ -18,9 +18,9 @@ export default function HomePage() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <main className="min-h-screen bg-white text-slate-950">
+    <main className="min-h-screen bg-white text-slate-950 dark:bg-slate-950 dark:text-white">
       {/* NAVBAR */}
-      <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 backdrop-blur-xl">
+      <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/90">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
           <Link href="/" className="flex items-center gap-3">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-950 text-white">
@@ -31,7 +31,7 @@ export default function HomePage() {
               <div className="text-sm font-bold tracking-tight">
                 AFRICA-LMM
               </div>
-              <div className="hidden text-[10px] uppercase tracking-[0.2em] text-slate-400 sm:block">
+              <div className="hidden text-[10px] uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 sm:block">
                 African Multimodal Intelligence
               </div>
             </div>
@@ -40,30 +40,30 @@ export default function HomePage() {
           <nav className="hidden items-center gap-7 md:flex">
             <a
               href="#features"
-              className="text-sm text-slate-600 hover:text-slate-950"
+              className="text-sm text-slate-600 hover:text-slate-950 dark:text-slate-300 dark:hover:text-white"
             >
               Fonctionnalités
             </a>
 
             <a
               href="#technology"
-              className="text-sm text-slate-600 hover:text-slate-950"
+              className="text-sm text-slate-600 hover:text-slate-950 dark:text-slate-300 dark:hover:text-white"
             >
               Technologie
             </a>
 
             <a
               href="#about"
-              className="text-sm text-slate-600 hover:text-slate-950"
+              className="text-sm text-slate-600 hover:text-slate-950 dark:text-slate-300 dark:hover:text-white"
             >
               À propos
             </a>
 
             <a
-              href="https://github.com/"
+              href="https://github.com/le-roi-y/africa-lmm"
               target="_blank"
               rel="noreferrer"
-              className="flex items-center gap-2 text-sm text-slate-600 hover:text-slate-950"
+              className="flex items-center gap-2 text-sm text-slate-600 hover:text-slate-950 dark:text-slate-300 dark:hover:text-white"
             >
               GitHub
             </a>
@@ -87,7 +87,7 @@ export default function HomePage() {
         </div>
 
         {menuOpen && (
-          <div className="border-t border-slate-200 bg-white px-6 py-5 md:hidden">
+          <div className="border-t border-slate-200 bg-white px-6 py-5 dark:border-slate-800 dark:bg-slate-950 md:hidden">
             <div className="flex flex-col gap-4">
               <a href="#features" onClick={() => setMenuOpen(false)}>
                 Fonctionnalités
@@ -116,19 +116,19 @@ export default function HomePage() {
 
         <div className="mx-auto grid max-w-7xl gap-16 px-6 py-24 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:py-32">
           <div>
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-600">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200">
               <Sparkles size={14} />
               Multimodal AI for African knowledge
             </div>
 
             <h1 className="max-w-4xl text-5xl font-semibold leading-[1.05] tracking-[-0.04em] sm:text-6xl lg:text-7xl">
               L'intelligence documentaire
-              <span className="block text-slate-500">
+              <span className="block text-slate-500 dark:text-slate-400">
                 conçue pour l'Afrique.
               </span>
             </h1>
 
-            <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-600">
+            <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-300">
               AFRICA-LMM transforme vos PDF, rapports, tableaux et images en
               connaissances exploitables. Posez vos propres questions et
               obtenez des réponses contextualisées avec leurs sources.
@@ -148,7 +148,7 @@ export default function HomePage() {
 
               <a
                 href="#features"
-                className="inline-flex items-center justify-center rounded-xl border border-slate-200 px-6 py-3.5 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+                className="inline-flex items-center justify-center rounded-xl border border-slate-200 px-6 py-3.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
               >
                 Découvrir AFRICA-LMM
               </a>
@@ -157,7 +157,7 @@ export default function HomePage() {
 
           {/* APERÇU PRODUIT */}
           <div className="rounded-3xl border border-slate-200 bg-slate-50 p-3 shadow-2xl shadow-slate-200/60">
-            <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
+            <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
               <div className="flex items-center gap-2 border-b border-slate-200 px-5 py-4">
                 <div className="h-2.5 w-2.5 rounded-full bg-slate-300" />
                 <div className="h-2.5 w-2.5 rounded-full bg-slate-300" />
@@ -169,9 +169,9 @@ export default function HomePage() {
                 <div className="border-r border-slate-200 bg-slate-50 p-4">
                   <div className="mb-5 h-3 w-20 rounded bg-slate-200" />
                   <div className="space-y-3">
-                    <div className="h-9 rounded-lg bg-white shadow-sm" />
-                    <div className="h-9 rounded-lg bg-white" />
-                    <div className="h-9 rounded-lg bg-white" />
+                    <div className="h-9 rounded-lg bg-white shadow-sm dark:bg-slate-800" />
+                    <div className="h-9 rounded-lg bg-white dark:bg-slate-800" />
+                    <div className="h-9 rounded-lg bg-white dark:bg-slate-800" />
                   </div>
                 </div>
 
@@ -204,7 +204,7 @@ export default function HomePage() {
       {/* FEATURES */}
       <section id="features" className="border-t border-slate-100 bg-slate-50">
         <div className="mx-auto max-w-7xl px-6 py-24">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">
             Une plateforme complète
           </p>
 
@@ -212,7 +212,7 @@ export default function HomePage() {
             Comprendre les documents, pas seulement les rechercher.
           </h2>
 
-          <p className="mt-4 max-w-2xl leading-7 text-slate-600">
+          <p className="mt-4 max-w-2xl leading-7 text-slate-600 dark:text-slate-300">
             Une architecture combinant traitement documentaire, OCR, vision,
             recherche sémantique et génération augmentée par récupération.
           </p>
@@ -250,7 +250,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-7xl px-6 py-24">
           <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400">
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">
                 Technologie
               </p>
 
@@ -258,7 +258,7 @@ export default function HomePage() {
                 Une stack Machine Learning moderne.
               </h2>
 
-              <p className="mt-5 max-w-xl leading-7 text-slate-600">
+              <p className="mt-5 max-w-xl leading-7 text-slate-600 dark:text-slate-300">
                 AFRICA-LMM est construit comme une plateforme ML complète,
                 depuis l'ingestion jusqu'à la génération de réponses.
               </p>
@@ -285,7 +285,7 @@ export default function HomePage() {
               ].map((item) => (
                 <div
                   key={item}
-                  className="rounded-2xl border border-slate-200 p-5 text-sm font-medium text-slate-700"
+                  className="rounded-2xl border border-slate-200 p-5 text-sm font-medium text-slate-700 dark:border-slate-700 dark:text-slate-200"
                 >
                   {item}
                 </div>
@@ -311,7 +311,7 @@ export default function HomePage() {
 
           <Link
             href="/chat"
-            className="mt-8 inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3.5 text-sm font-semibold text-slate-950 hover:bg-slate-100"
+            className="mt-8 inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3.5 text-sm font-semibold text-slate-950 hover:bg-slate-100 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
           >
             Commencer
             <ArrowRight size={17} />
@@ -321,7 +321,7 @@ export default function HomePage() {
 
       {/* FOOTER */}
       <footer className="border-t border-slate-800 bg-slate-950">
-        <div className="mx-auto flex max-w-7xl flex-col gap-2 px-6 py-7 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mx-auto flex max-w-7xl flex-col gap-2 px-6 py-7 text-sm text-slate-500 dark:text-slate-400 sm:flex-row sm:items-center sm:justify-between">
           <span>© 2026 AFRICA-LMM</span>
           <span>Multimodal AI for African knowledge</span>
         </div>
@@ -340,14 +340,14 @@ function Feature({
   text: string;
 }) {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-6">
-      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
+    <div className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
+      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200">
         {icon}
       </div>
 
       <h3 className="mt-5 font-semibold">{title}</h3>
 
-      <p className="mt-2 text-sm leading-6 text-slate-500">{text}</p>
+      <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">{text}</p>
     </div>
   );
 }

@@ -111,17 +111,13 @@ class IntentRouter:
         self._prototype_embeddings = None
 
         if self.encoder is None and self.encoder_provider is None:
-            raise ValueError(
-                "IntentRouter requires an embedding encoder or provider."
-            )
+            raise ValueError("IntentRouter requires an embedding encoder or provider.")
 
     def _get_encoder(self) -> SentenceTransformer:
         """Return the embedding encoder, loading it lazily if necessary."""
         if self.encoder is None:
             if self.encoder_provider is None:
-                raise RuntimeError(
-                    "IntentRouter embedding encoder is unavailable."
-                )
+                raise RuntimeError("IntentRouter embedding encoder is unavailable.")
 
             self.encoder = self.encoder_provider()
 
@@ -183,10 +179,7 @@ class IntentRouter:
             margin=margin,
         )
 
-        if (
-            best_intent == Intent.DOCUMENT_COMPARISON
-            and context.selected_document_count == 1
-        ):
+        if best_intent == Intent.DOCUMENT_COMPARISON and context.selected_document_count == 1:
             return IntentResult(
                 intent=Intent.AMBIGUOUS,
                 confidence=confidence,
@@ -194,10 +187,7 @@ class IntentRouter:
                 ambiguous=True,
             )
 
-        if (
-            best_score >= self.MIN_CONFIDENCE
-            and margin >= self.MIN_MARGIN
-        ):
+        if best_score >= self.MIN_CONFIDENCE and margin >= self.MIN_MARGIN:
             return IntentResult(
                 intent=best_intent,
                 confidence=confidence,
@@ -226,9 +216,7 @@ class IntentRouter:
             norm = np.linalg.norm(centroid)
 
             if norm == 0:
-                raise ValueError(
-                    f"Invalid prototype embedding for intent: {intent}"
-                )
+                raise ValueError(f"Invalid prototype embedding for intent: {intent}")
 
             prototypes[intent] = centroid / norm
 

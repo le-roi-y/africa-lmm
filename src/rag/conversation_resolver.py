@@ -40,8 +40,7 @@ class ConversationResolver:
             re.IGNORECASE,
         ),
         re.compile(
-            r"\b(?:de|du|des|d')\s+"
-            r"([A-Za-zÀ-ÿ][A-Za-zÀ-ÿ0-9_-]*)",
+            r"\b(?:de|du|des|d')\s+" r"([A-Za-zÀ-ÿ][A-Za-zÀ-ÿ0-9_-]*)",
             re.IGNORECASE,
         ),
     )
@@ -106,9 +105,7 @@ class ConversationResolver:
             )
 
         previous_questions = [
-            line.strip()
-            for line in conversation_context.splitlines()
-            if line.strip()
+            line.strip() for line in conversation_context.splitlines() if line.strip()
         ]
 
         if not previous_questions:
@@ -203,15 +200,9 @@ class ConversationResolver:
                     current_year=current_refs.years[0],
                 )
             else:
-                resolved = (
-                    f"{previous_question}\n\n"
-                    f"Question actuelle : {question}"
-                )
+                resolved = f"{previous_question}\n\n" f"Question actuelle : {question}"
 
-                resolved = (
-                    f"Contexte résolu : {entity}\n"
-                    f"Question actuelle : {question}"
-                )
+                resolved = f"Contexte résolu : {entity}\n" f"Question actuelle : {question}"
 
         # Si l'entité est nouvelle mais que l'année est implicite,
         # on hérite de l'année précédente.
@@ -231,8 +222,7 @@ class ConversationResolver:
         # Fallback générique pour les références pronominales.
         else:
             resolved = (
-                f"Contexte précédent : {previous_question}\n\n"
-                f"Question actuelle : {question}"
+                f"Contexte précédent : {previous_question}\n\n" f"Question actuelle : {question}"
             )
 
         return resolved
@@ -249,10 +239,7 @@ class ConversationResolver:
                 count=1,
             )
 
-        return (
-            f"{previous_question.rstrip(' ?')} "
-            f"pour l'année {current_year} ?"
-        )
+        return f"{previous_question.rstrip(' ?')} " f"pour l'année {current_year} ?"
 
     def _replace_entity_in_previous_question(
         self,
@@ -272,10 +259,7 @@ class ConversationResolver:
                 count=1,
             )
 
-        return (
-            f"{previous_question.rstrip(' ?')} "
-            f"pour {current_entity} ?"
-        )
+        return f"{previous_question.rstrip(' ?')} " f"pour {current_entity} ?"
 
     def _is_follow_up(self, question: str) -> bool:
         normalized = " ".join(question.lower().split()).strip()

@@ -41,11 +41,7 @@ class TableQA:
         if not isinstance(table, list) or len(table) < 2:
             return None
 
-        rows = [
-            row
-            for row in table
-            if isinstance(row, (list, tuple))
-        ]
+        rows = [row for row in table if isinstance(row, (list, tuple))]
 
         if len(rows) < 2:
             return None

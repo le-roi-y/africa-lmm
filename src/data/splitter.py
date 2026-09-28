@@ -17,9 +17,7 @@ class TextSplitter:
             raise ValueError("chunk_size must be greater than 0.")
 
         if not 0 <= chunk_overlap < chunk_size:
-            raise ValueError(
-                "chunk_overlap must be between 0 and chunk_size."
-            )
+            raise ValueError("chunk_overlap must be between 0 and chunk_size.")
 
         self.chunk_size = chunk_size
         self.chunk_overlap = chunk_overlap
@@ -82,9 +80,7 @@ class TextSplitter:
                 chunks.append(
                     DocumentChunk(
                         chunk_id=(
-                            f"{document.metadata.document_id}"
-                            f"_{page_number or 0}"
-                            f"_{index}"
+                            f"{document.metadata.document_id}" f"_{page_number or 0}" f"_{index}"
                         ),
                         document_id=document.metadata.document_id,
                         text=chunk_text,

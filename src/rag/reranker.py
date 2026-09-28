@@ -55,10 +55,7 @@ class CrossEncoderReranker(Reranker):
         if not results:
             return []
 
-        pairs = [
-            (query, result.chunk.text)
-            for result in results
-        ]
+        pairs = [(query, result.chunk.text) for result in results]
 
         model = self._get_model()
 
@@ -69,9 +66,7 @@ class CrossEncoderReranker(Reranker):
         )
 
         reranked = [
-            result.model_copy(
-                update={"score": float(score)}
-            )
+            result.model_copy(update={"score": float(score)})
             for result, score in zip(
                 results,
                 scores,
@@ -85,9 +80,7 @@ class CrossEncoderReranker(Reranker):
         )
 
         return [
-            result.model_copy(
-                update={"rank": rank}
-            )
+            result.model_copy(update={"rank": rank})
             for rank, result in enumerate(
                 reranked,
                 start=1,
@@ -106,9 +99,7 @@ class ScoreReranker(Reranker):
         del query
 
         return [
-            result.model_copy(
-                update={"rank": rank}
-            )
+            result.model_copy(update={"rank": rank})
             for rank, result in enumerate(
                 sorted(
                     results,

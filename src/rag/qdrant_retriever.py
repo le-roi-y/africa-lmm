@@ -48,9 +48,7 @@ class QdrantRetriever(Retriever):
             vector_size = self.encoder.get_embedding_dimension()
 
             if vector_size is None:
-                raise RuntimeError(
-                    "Unable to determine embedding dimension."
-                )
+                raise RuntimeError("Unable to determine embedding dimension.")
 
             self.vector_size = vector_size
             self._ensure_collection()
@@ -65,15 +63,13 @@ class QdrantRetriever(Retriever):
         """Create the collection if it does not exist."""
         if self.vector_size is None:
             raise RuntimeError(
-                "Embedding dimension must be known before creating "
-                "the collection."
+                "Embedding dimension must be known before creating " "the collection."
             )
 
         collections = self.client.get_collections()
 
         exists = any(
-            collection.name == self.collection_name
-            for collection in collections.collections
+            collection.name == self.collection_name for collection in collections.collections
         )
 
         if exists:
@@ -97,10 +93,7 @@ class QdrantRetriever(Retriever):
 
         encoder = self._load_encoder()
 
-        texts = [
-            chunk.text
-            for chunk in chunks
-        ]
+        texts = [chunk.text for chunk in chunks]
 
         embeddings = encoder.encode(
             texts,

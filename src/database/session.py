@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from .connection import engine
 
 
-def get_db() -> Generator[Session, None, None]:
+def get_db() -> Generator[Session]:
     """Provide a SQLAlchemy session for a FastAPI request."""
     with Session(engine) as session:
         yield session

@@ -43,9 +43,7 @@ class QLoRATrainer:
 
     def build_quantization_config(self) -> Any:
         if self.config.quantization_bits != 4:
-            raise ValueError(
-                "Currently only 4-bit QLoRA is supported."
-            )
+            raise ValueError("Currently only 4-bit QLoRA is supported.")
 
         from transformers import BitsAndBytesConfig
 
@@ -56,10 +54,7 @@ class QLoRATrainer:
         }.get(self.config.bnb_4bit_compute_dtype)
 
         if compute_dtype is None:
-            raise ValueError(
-                "Unsupported compute dtype: "
-                f"{self.config.bnb_4bit_compute_dtype}"
-            )
+            raise ValueError("Unsupported compute dtype: " f"{self.config.bnb_4bit_compute_dtype}")
 
         return BitsAndBytesConfig(
             load_in_4bit=True,

@@ -53,9 +53,7 @@ class DocumentEngine:
             raise ValueError(f"Not a file: {path}")
 
         if path.suffix.lower() != ".pdf":
-            raise ValueError(
-                f"Expected a PDF file, got: {path.suffix}"
-            )
+            raise ValueError(f"Expected a PDF file, got: {path.suffix}")
 
         document_output_dir = self.output_dir / path.stem
         image_output_dir = document_output_dir / "images"
@@ -123,10 +121,7 @@ class DocumentEngine:
         )
 
         with tempfile.TemporaryDirectory() as temp_dir:
-            image_path = (
-                Path(temp_dir)
-                / f"page_{page_number}.png"
-            )
+            image_path = Path(temp_dir) / f"page_{page_number}.png"
 
             pixmap.save(str(image_path))
 
@@ -163,10 +158,7 @@ class DocumentEngine:
             if not image_bytes:
                 continue
 
-            image_path = (
-                output_dir
-                / f"page_{page_number}_image_{image_index}.{image_ext}"
-            )
+            image_path = output_dir / f"page_{page_number}_image_{image_index}.{image_ext}"
 
             image_path.write_bytes(image_bytes)
             image_paths.append(str(image_path))

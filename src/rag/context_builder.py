@@ -18,9 +18,7 @@ class ContextBuilder:
         contexts: list[str] = []
 
         for result in results:
-            contexts.append(
-                self._build_result_context(result)
-            )
+            contexts.append(self._build_result_context(result))
 
         return "\n\n".join(contexts)
 
@@ -66,12 +64,8 @@ class ContextBuilder:
                 tables,
                 start=1,
             ):
-                lines.append(
-                    f"Table {table_index}:"
-                )
-                lines.append(
-                    self._format_table(table)
-                )
+                lines.append(f"Table {table_index}:")
+                lines.append(self._format_table(table))
 
         return "\n".join(lines)
 
@@ -84,12 +78,7 @@ class ContextBuilder:
 
         for row in table:
             if isinstance(row, (list, tuple)):
-                rows.append(
-                    " | ".join(
-                        str(cell)
-                        for cell in row
-                    )
-                )
+                rows.append(" | ".join(str(cell) for cell in row))
             else:
                 rows.append(str(row))
 

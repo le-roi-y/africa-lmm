@@ -31,10 +31,7 @@ class ConversationService:
         return conversation
 
     def list(self) -> list[Conversation]:
-        statement = (
-            select(Conversation)
-            .order_by(Conversation.updated_at.desc())
-        )
+        statement = select(Conversation).order_by(Conversation.updated_at.desc())
 
         return list(self.db.scalars(statement).all())
 

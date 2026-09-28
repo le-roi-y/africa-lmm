@@ -8,7 +8,6 @@ from typing import Any
 from src.data.schemas import Answer, RetrievalResult
 from src.inference.rag_service import RAGService
 
-
 BENCHMARK_PATH = Path(__file__).with_name("rag_eval.json")
 
 
@@ -85,9 +84,7 @@ class RAGEvaluator:
             unanswerable_correct = False
 
             if item["type"] == "unanswerable":
-                unanswerable_correct = self._is_unanswerable_response(
-                    answer
-                )
+                unanswerable_correct = self._is_unanswerable_response(answer)
 
             if retrieval_rank == 1:
                 retrieval_hits_at_1 += 1
@@ -119,52 +116,24 @@ class RAGEvaluator:
                     "answer_correct": answer_correct,
                     "citation_correct": citation_correct,
                     "unanswerable_correct": (
-                        unanswerable_correct
-                        if item["type"] == "unanswerable"
-                        else None
+                        unanswerable_correct if item["type"] == "unanswerable" else None
                     ),
                 }
             )
 
         total = len(dataset)
-        unanswerable_total = sum(
-            1
-            for item in dataset
-            if item["type"] == "unanswerable"
-        )
+        unanswerable_total = sum(1 for item in dataset if item["type"] == "unanswerable")
 
         return {
             "dataset_size": total,
             "metrics": {
-                "retrieval_recall_at_1": (
-                    retrieval_hits_at_1 / total
-                    if total
-                    else 0.0
-                ),
-                "retrieval_recall_at_5": (
-                    retrieval_hits_at_5 / total
-                    if total
-                    else 0.0
-                ),
-                "reranker_recall_at_1": (
-                    reranker_hits_at_1 / total
-                    if total
-                    else 0.0
-                ),
-                "answer_accuracy": (
-                    answer_hits / total
-                    if total
-                    else 0.0
-                ),
-                "citation_accuracy": (
-                    citation_hits / total
-                    if total
-                    else 0.0
-                ),
+                "retrieval_recall_at_1": (retrieval_hits_at_1 / total if total else 0.0),
+                "retrieval_recall_at_5": (retrieval_hits_at_5 / total if total else 0.0),
+                "reranker_recall_at_1": (reranker_hits_at_1 / total if total else 0.0),
+                "answer_accuracy": (answer_hits / total if total else 0.0),
+                "citation_accuracy": (citation_hits / total if total else 0.0),
                 "unanswerable_accuracy": (
-                    unanswerable_hits / unanswerable_total
-                    if unanswerable_total
-                    else 0.0
+                    unanswerable_hits / unanswerable_total if unanswerable_total else 0.0
                 ),
             },
             "results": results,
@@ -208,10 +177,7 @@ class RAGEvaluator:
         actual = cls._normalize(answer.answer)
         expected = cls._normalize(expected_answer)
 
-        return (
-            actual == expected
-            or expected in actual
-        )
+        return actual == expected or expected in actual
 
     @staticmethod
     def _citation_matches(
@@ -227,16 +193,10 @@ class RAGEvaluator:
             if citation.document_id != expected_document:
                 continue
 
-            if (
-                expected_page is not None
-                and citation.page_number != expected_page
-            ):
+            if expected_page is not None and citation.page_number != expected_page:
                 continue
 
-            if (
-                expected_chunk is not None
-                and citation.chunk_id != expected_chunk
-            ):
+            if expected_chunk is not None and citation.chunk_id != expected_chunk:
                 continue
 
             return True
@@ -263,16 +223,11 @@ class RAGEvaluator:
             "inconnu",
         ]
 
-        return any(
-            pattern in text
-            for pattern in refusal_patterns
-        )
+        return any(pattern in text for pattern in refusal_patterns)
 
 
 def main() -> None:
-    service = RAGService(
-        model_name="Qwen/Qwen2.5-0.5B-Instruct"
-    )
+    service = RAGService(model_name="Qwen/Qwen2.5-0.5B-Instruct")
 
     evaluator = RAGEvaluator(service)
     report = evaluator.evaluate()
@@ -292,30 +247,12 @@ def main() -> None:
 
     print("\n=== AFRICA-LMM RAG EVALUATION ===")
     print(f"Dataset size: {report['dataset_size']}")
-    print(
-        f"Retrieval Recall@1: "
-        f"{metrics['retrieval_recall_at_1']:.2%}"
-    )
-    print(
-        f"Retrieval Recall@5: "
-        f"{metrics['retrieval_recall_at_5']:.2%}"
-    )
-    print(
-        f"Reranker Recall@1: "
-        f"{metrics['reranker_recall_at_1']:.2%}"
-    )
-    print(
-        f"Answer Accuracy: "
-        f"{metrics['answer_accuracy']:.2%}"
-    )
-    print(
-        f"Citation Accuracy: "
-        f"{metrics['citation_accuracy']:.2%}"
-    )
-    print(
-        f"Unanswerable Accuracy: "
-        f"{metrics['unanswerable_accuracy']:.2%}"
-    )
+    print(f"Retrieval Recall@1: " f"{metrics['retrieval_recall_at_1']:.2%}")
+    print(f"Retrieval Recall@5: " f"{metrics['retrieval_recall_at_5']:.2%}")
+    print(f"Reranker Recall@1: " f"{metrics['reranker_recall_at_1']:.2%}")
+    print(f"Answer Accuracy: " f"{metrics['answer_accuracy']:.2%}")
+    print(f"Citation Accuracy: " f"{metrics['citation_accuracy']:.2%}")
+    print(f"Unanswerable Accuracy: " f"{metrics['unanswerable_accuracy']:.2%}")
     print(f"\nReport: {output_path}")
 
 

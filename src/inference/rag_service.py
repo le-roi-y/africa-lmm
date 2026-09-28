@@ -15,7 +15,6 @@ from src.rag.reranker import CrossEncoderReranker
 
 
 class RAGService:
-
     """
     Service RAG complet d'AFRICA-LMM.
 
@@ -30,10 +29,7 @@ class RAGService:
     def __init__(
         self,
         model_name: str,
-        embedding_model: str = (
-            "sentence-transformers/"
-            "paraphrase-multilingual-MiniLM-L12-v2"
-        ),
+        embedding_model: str = ("sentence-transformers/" "paraphrase-multilingual-MiniLM-L12-v2"),
         collection_name: str = "africa_lmm_documents",
         qdrant_host: str | None = None,
         qdrant_port: int | None = None,

@@ -22,9 +22,7 @@ class AnswerStrategy:
         self.context_builder = context_builder or ContextBuilder()
         self.table_qa = TableQA()
         self.extractive_qa = (
-            ExtractiveQA(model=reranker_model)
-            if reranker_model is not None
-            else None
+            ExtractiveQA(model=reranker_model) if reranker_model is not None else None
         )
 
     def summarize(
@@ -35,8 +33,7 @@ class AnswerStrategy:
 
         if not results:
             return (
-                "Impossible de résumer le document : "
-                "aucun contenu exploitable n'a été trouvé."
+                "Impossible de résumer le document : " "aucun contenu exploitable n'a été trouvé."
             )
 
         context = self.context_builder.build(results)
@@ -55,7 +52,6 @@ class AnswerStrategy:
         )
 
         return self.model.generate(prompt)
-
 
     def compare(
         self,
@@ -128,10 +124,7 @@ class AnswerStrategy:
         contextual_question: str | None = None,
     ) -> str:
         if not results:
-            return (
-                "L'information demandée n'est pas disponible "
-                "dans les documents fournis."
-            )
+            return "L'information demandée n'est pas disponible " "dans les documents fournis."
 
         table_answer = self._table_answer(
             question=question,
@@ -176,9 +169,7 @@ class AnswerStrategy:
         tables = []
 
         for result in results:
-            tables.extend(
-                result.chunk.metadata.get("tables", [])
-            )
+            tables.extend(result.chunk.metadata.get("tables", []))
 
         return self.table_qa.answer(
             question=question,

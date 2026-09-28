@@ -45,19 +45,13 @@ class SFTTrainingConfig:
             raise ValueError("learning_rate must be greater than 0.")
 
         if self.per_device_train_batch_size <= 0:
-            raise ValueError(
-                "per_device_train_batch_size must be greater than 0."
-            )
+            raise ValueError("per_device_train_batch_size must be greater than 0.")
 
         if self.per_device_eval_batch_size <= 0:
-            raise ValueError(
-                "per_device_eval_batch_size must be greater than 0."
-            )
+            raise ValueError("per_device_eval_batch_size must be greater than 0.")
 
         if self.gradient_accumulation_steps <= 0:
-            raise ValueError(
-                "gradient_accumulation_steps must be greater than 0."
-            )
+            raise ValueError("gradient_accumulation_steps must be greater than 0.")
 
         if self.max_length <= 0:
             raise ValueError("max_length must be greater than 0.")
@@ -110,17 +104,12 @@ class SFTPipeline:
             raise ValueError("Dataset must contain a 'train' split.")
 
         if "validation" not in dataset:
-            raise ValueError(
-                "Dataset must contain a 'validation' split."
-            )
+            raise ValueError("Dataset must contain a 'validation' split.")
 
         if self.tokenizer is None:
             self.load_tokenizer()
 
-        use_bf16 = (
-            torch.cuda.is_available()
-            and torch.cuda.is_bf16_supported()
-        )
+        use_bf16 = torch.cuda.is_available() and torch.cuda.is_bf16_supported()
 
         use_fp16 = torch.cuda.is_available() and not use_bf16
 
@@ -128,15 +117,9 @@ class SFTPipeline:
             output_dir=self.config.output_dir,
             num_train_epochs=self.config.num_train_epochs,
             learning_rate=self.config.learning_rate,
-            per_device_train_batch_size=(
-                self.config.per_device_train_batch_size
-            ),
-            per_device_eval_batch_size=(
-                self.config.per_device_eval_batch_size
-            ),
-            gradient_accumulation_steps=(
-                self.config.gradient_accumulation_steps
-            ),
+            per_device_train_batch_size=(self.config.per_device_train_batch_size),
+            per_device_eval_batch_size=(self.config.per_device_eval_batch_size),
+            gradient_accumulation_steps=(self.config.gradient_accumulation_steps),
             max_length=self.config.max_length,
             seed=self.config.seed,
             eval_strategy=self.config.eval_strategy,
@@ -163,33 +146,25 @@ class SFTPipeline:
     def train(self) -> Any:
         """Run the training process."""
         if self.trainer is None:
-            raise RuntimeError(
-                "Trainer has not been built. Call build() first."
-            )
+            raise RuntimeError("Trainer has not been built. Call build() first.")
 
         return self.trainer.train()
 
     def evaluate(self) -> dict[str, float]:
         """Evaluate the current model."""
         if self.trainer is None:
-            raise RuntimeError(
-                "Trainer has not been built. Call build() first."
-            )
+            raise RuntimeError("Trainer has not been built. Call build() first.")
 
         metrics = self.trainer.evaluate()
 
         return {
-            key: float(value)
-            for key, value in metrics.items()
-            if isinstance(value, (int, float))
+            key: float(value) for key, value in metrics.items() if isinstance(value, (int, float))
         }
 
     def save(self, path: str | Path | None = None) -> None:
         """Save the trained model or LoRA adapter."""
         if self.trainer is None:
-            raise RuntimeError(
-                "Trainer has not been built. Call build() first."
-            )
+            raise RuntimeError("Trainer has not been built. Call build() first.")
 
         output_path = Path(path or self.config.output_dir)
         output_path.mkdir(parents=True, exist_ok=True)

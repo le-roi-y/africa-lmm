@@ -104,12 +104,8 @@ class QLoRATrainer:
         training_args = TrainingArguments(
             output_dir=training["output_dir"],
             num_train_epochs=training["num_train_epochs"],
-            per_device_train_batch_size=training[
-                "per_device_train_batch_size"
-            ],
-            gradient_accumulation_steps=training[
-                "gradient_accumulation_steps"
-            ],
+            per_device_train_batch_size=training["per_device_train_batch_size"],
+            gradient_accumulation_steps=training["gradient_accumulation_steps"],
             learning_rate=training["learning_rate"],
             logging_steps=training["logging_steps"],
             save_steps=training["save_steps"],

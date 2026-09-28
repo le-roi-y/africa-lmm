@@ -18,19 +18,14 @@ class ExtractiveQA:
         max_sentence_length: int = 500,
     ) -> None:
         if not 0.0 <= score_threshold <= 1.0:
-            raise ValueError(
-                "score_threshold must be between 0 and 1."
-            )
+            raise ValueError("score_threshold must be between 0 and 1.")
 
         if min_sentence_length <= 0:
-            raise ValueError(
-                "min_sentence_length must be greater than 0."
-            )
+            raise ValueError("min_sentence_length must be greater than 0.")
 
         if max_sentence_length < min_sentence_length:
             raise ValueError(
-                "max_sentence_length must be greater than or equal "
-                "to min_sentence_length."
+                "max_sentence_length must be greater than or equal " "to min_sentence_length."
             )
 
         self.model = model
@@ -51,10 +46,7 @@ class ExtractiveQA:
         if not candidates:
             return None
 
-        pairs = [
-            (question, candidate)
-            for candidate in candidates
-        ]
+        pairs = [(question, candidate) for candidate in candidates]
 
         scores = self.model.predict(
             pairs,
@@ -92,11 +84,7 @@ class ExtractiveQA:
             for sentence in sentences:
                 sentence = " ".join(sentence.split())
 
-                if not (
-                    self.min_sentence_length
-                    <= len(sentence)
-                    <= self.max_sentence_length
-                ):
+                if not (self.min_sentence_length <= len(sentence) <= self.max_sentence_length):
                     continue
 
                 candidates.append(sentence)

@@ -98,12 +98,8 @@ class LoRATrainer:
         training_args = TrainingArguments(
             output_dir=training_config["output_dir"],
             num_train_epochs=training_config["num_train_epochs"],
-            per_device_train_batch_size=training_config[
-                "per_device_train_batch_size"
-            ],
-            gradient_accumulation_steps=training_config[
-                "gradient_accumulation_steps"
-            ],
+            per_device_train_batch_size=training_config["per_device_train_batch_size"],
+            gradient_accumulation_steps=training_config["gradient_accumulation_steps"],
             learning_rate=training_config["learning_rate"],
             logging_steps=training_config["logging_steps"],
             save_steps=training_config["save_steps"],

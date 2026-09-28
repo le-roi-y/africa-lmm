@@ -99,10 +99,7 @@ class RAGPipeline:
             )
 
             for result in query_results:
-                if (
-                    selected_documents
-                    and result.chunk.document_id not in selected_documents
-                ):
+                if selected_documents and result.chunk.document_id not in selected_documents:
                     continue
 
                 result_map[result.chunk.chunk_id] = result
@@ -130,8 +127,7 @@ class RAGPipeline:
             return Answer(
                 question=question,
                 answer=(
-                    "L'information demandée n'est pas disponible "
-                    "dans les documents fournis."
+                    "L'information demandée n'est pas disponible " "dans les documents fournis."
                 ),
                 citations=[],
                 retrieved_chunks=[],
@@ -149,7 +145,6 @@ class RAGPipeline:
             citations=citations,
             retrieved_chunks=results,
         )
-
 
     def _load_full_documents(
         self,
@@ -197,8 +192,7 @@ class RAGPipeline:
             return Answer(
                 question=question,
                 answer=(
-                    "Impossible de comparer les documents : "
-                    "aucun contenu indexé n'a été trouvé."
+                    "Impossible de comparer les documents : " "aucun contenu indexé n'a été trouvé."
                 ),
                 citations=[],
                 retrieved_chunks=[],
@@ -275,8 +269,7 @@ class RAGPipeline:
             return Answer(
                 question=question,
                 answer=(
-                    "Impossible de résumer le document : "
-                    "aucun contenu indexé n'a été trouvé."
+                    "Impossible de résumer le document : " "aucun contenu indexé n'a été trouvé."
                 ),
                 citations=[],
                 retrieved_chunks=[],
@@ -299,4 +292,3 @@ class RAGPipeline:
             citations=citations,
             retrieved_chunks=results,
         )
-

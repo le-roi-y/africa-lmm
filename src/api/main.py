@@ -1,37 +1,33 @@
+# ruff: noqa: B008
 from __future__ import annotations
 
 from pathlib import Path
-from uuid import uuid4
 
 import pymupdf as fitz
-from fastapi import Depends
-from sqlalchemy.orm import Session
-
-from fastapi import FastAPI, File, HTTPException, UploadFile
+from fastapi import Depends, FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
-
-from src.database.session import get_db
-from src.inference.conversation_service import ConversationService
-from src.inference.title_generator import generate_conversation_title
+from sqlalchemy.orm import Session
 
 from src.api.schemas import (
     CitationResponse,
+    ConversationCreateRequest,
+    ConversationResponse,
+    ConversationsResponse,
+    ConversationSummary,
     DocumentInfo,
     DocumentsResponse,
     HealthResponse,
     IngestResponse,
+    MessageResponse,
     QueryRequest,
     QueryResponse,
     RetrievedChunkResponse,
-ConversationCreateRequest,
-ConversationResponse,
-ConversationSummary,
-ConversationsResponse,
-MessageResponse,
 )
+from src.database.session import get_db
+from src.inference.conversation_service import ConversationService
 from src.inference.rag_service import RAGService
-
+from src.inference.title_generator import generate_conversation_title
 
 APP_VERSION = "0.1.0"
 UPLOAD_DIR = Path("data/uploads")
@@ -114,9 +110,7 @@ def query(
         if message.role == "user" and message.content.strip()
     ]
 
-    conversation_context = "\n".join(
-        previous_questions[-3:]
-    )
+    conversation_context = "\n".join(previous_questions[-3:])
 
     conversation_service.add_message(
         conversation_id=conversation_id,
@@ -150,10 +144,7 @@ def query(
         conversation_id=conversation_id,
         role="assistant",
         content=answer.answer,
-        citations=[
-            citation.model_dump()
-            for citation in citations
-        ],
+        citations=[citation.model_dump() for citation in citations],
     )
 
     return QueryResponse(
@@ -199,6 +190,8 @@ def list_documents() -> DocumentsResponse:
         documents=documents,
         total=len(documents),
     )
+
+
 @app.post(
     "/conversations",
     response_model=ConversationResponse,
@@ -298,6 +291,7 @@ def delete_conversation(
         )
 
     return {"deleted": True}
+
 
 @app.post(
     "/documents",

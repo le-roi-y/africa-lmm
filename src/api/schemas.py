@@ -56,6 +56,8 @@ class DocumentInfo(BaseModel):
 class DocumentsResponse(BaseModel):
     documents: list[DocumentInfo]
     total: int
+
+
 class ConversationCreateRequest(BaseModel):
     title: str = "Nouvelle conversation"
 

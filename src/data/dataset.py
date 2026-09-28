@@ -52,9 +52,7 @@ class InstructionDatasetBuilder:
         seed: int = 42,
     ) -> None:
         if not 0 < validation_split < 1:
-            raise ValueError(
-                "validation_split must be between 0 and 1."
-            )
+            raise ValueError("validation_split must be between 0 and 1.")
 
         self.validation_split = validation_split
         self.seed = seed
@@ -80,10 +78,7 @@ class InstructionDatasetBuilder:
         if suffix == ".jsonl":
             return self._load_jsonl(path)
 
-        raise ValueError(
-            f"Unsupported dataset format: {suffix}. "
-            "Expected .json or .jsonl."
-        )
+        raise ValueError(f"Unsupported dataset format: {suffix}. " "Expected .json or .jsonl.")
 
     def build(
         self,
@@ -95,10 +90,7 @@ class InstructionDatasetBuilder:
         examples = self.load_file(path)
         validated = self._validate_examples(examples)
 
-        formatted = [
-            self._format_example(example)
-            for example in validated
-        ]
+        formatted = [self._format_example(example) for example in validated]
 
         dataset = Dataset.from_list(formatted)
 
@@ -126,9 +118,7 @@ class InstructionDatasetBuilder:
             data = data.get("data")
 
         if not isinstance(data, list):
-            raise DatasetFormatError(
-                "JSON dataset must contain a list of examples."
-            )
+            raise DatasetFormatError("JSON dataset must contain a list of examples.")
 
         return data
 
@@ -152,9 +142,7 @@ class InstructionDatasetBuilder:
                 try:
                     example = json.loads(line)
                 except json.JSONDecodeError as exc:
-                    raise DatasetFormatError(
-                        f"Invalid JSON on line {line_number}."
-                    ) from exc
+                    raise DatasetFormatError(f"Invalid JSON on line {line_number}.") from exc
 
                 examples.append(example)
 
@@ -166,44 +154,29 @@ class InstructionDatasetBuilder:
     ) -> list[dict[str, Any]]:
         """Validate the dataset structure."""
         if not examples:
-            raise DatasetFormatError(
-                "Dataset contains no examples."
-            )
+            raise DatasetFormatError("Dataset contains no examples.")
 
         validated: list[dict[str, Any]] = []
 
         for index, example in enumerate(examples):
             if not isinstance(example, dict):
-                raise DatasetFormatError(
-                    f"Example {index} must be a JSON object."
-                )
+                raise DatasetFormatError(f"Example {index} must be a JSON object.")
 
             missing = self.REQUIRED_FIELDS - example.keys()
 
             if missing:
                 raise DatasetFormatError(
-                    f"Example {index} is missing required fields: "
-                    f"{sorted(missing)}"
+                    f"Example {index} is missing required fields: " f"{sorted(missing)}"
                 )
 
             instruction = example["instruction"]
             response = example["response"]
 
-            if (
-                not isinstance(instruction, str)
-                or not instruction.strip()
-            ):
-                raise DatasetFormatError(
-                    f"Example {index} has an invalid instruction."
-                )
+            if not isinstance(instruction, str) or not instruction.strip():
+                raise DatasetFormatError(f"Example {index} has an invalid instruction.")
 
-            if (
-                not isinstance(response, str)
-                or not response.strip()
-            ):
-                raise DatasetFormatError(
-                    f"Example {index} has an invalid response."
-                )
+            if not isinstance(response, str) or not response.strip():
+                raise DatasetFormatError(f"Example {index} has an invalid response.")
 
             validated.append(example)
 
@@ -222,9 +195,7 @@ class InstructionDatasetBuilder:
         """
         instruction = example["instruction"].strip()
         response = example["response"].strip()
-        user_input = str(
-            example.get("input", "")
-        ).strip()
+        user_input = str(example.get("input", "")).strip()
 
         if user_input:
             prompt = (
@@ -233,10 +204,7 @@ class InstructionDatasetBuilder:
                 "### Response:"
             )
         else:
-            prompt = (
-                f"### Instruction:\n{instruction}\n\n"
-                "### Response:"
-            )
+            prompt = f"### Instruction:\n{instruction}\n\n" "### Response:"
 
         return {
             "prompt": prompt,

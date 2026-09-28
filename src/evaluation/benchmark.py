@@ -83,24 +83,12 @@ def main() -> None:
 
     print(f"\nDataset size: {report['dataset_size']}")
 
-    print(
-        f"\nRetrieval Recall@1: "
-        f"{metrics['retrieval_recall_at_1']:.2%}"
-    )
-    print(
-        f"Retrieval Recall@5: "
-        f"{metrics['retrieval_recall_at_5']:.2%}"
-    )
-    print(
-        f"Reranker Recall@1: "
-        f"{metrics['reranker_recall_at_1']:.2%}"
-    )
+    print(f"\nRetrieval Recall@1: " f"{metrics['retrieval_recall_at_1']:.2%}")
+    print(f"Retrieval Recall@5: " f"{metrics['retrieval_recall_at_5']:.2%}")
+    print(f"Reranker Recall@1: " f"{metrics['reranker_recall_at_1']:.2%}")
     print(f"Answer Accuracy: {metrics['answer_accuracy']:.2%}")
     print(f"Citation Accuracy: {metrics['citation_accuracy']:.2%}")
-    print(
-        f"Unanswerable Accuracy: "
-        f"{metrics['unanswerable_accuracy']:.2%}"
-    )
+    print(f"Unanswerable Accuracy: " f"{metrics['unanswerable_accuracy']:.2%}")
 
     print(f"\nDuration: {duration:.2f}s")
     print(f"Report: {RESULTS_PATH}")
